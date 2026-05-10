@@ -17,7 +17,7 @@ Linker is a social networking platform that combines features. Users can discove
 
 ### 👤 Profile Management
 - Edit profile information
-- Upload/view profile photo
+- View profile photo
 - Change password
 - Delete account
 
