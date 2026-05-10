@@ -51,13 +51,13 @@ This repository contains the frontend/client-side application for Linker — a s
 Clone the repository:
 
 ```bash
-git clone <your-frontend-repository-url>
+git clone "https://github.com/Kartikey-Verma1/Linker_Frontend.git"
 ```
 
 Move into the project directory:
 
 ```bash
-cd linker-frontend
+cd linker_frontend
 ```
 
 Install dependencies:
