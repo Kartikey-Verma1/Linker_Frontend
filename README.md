@@ -1,6 +1,6 @@
 # Linker Frontend
 
-Linker is a social networking platform that combines features. Users can discover profiles, show interest, ignore profiles, manage connection requests, and build meaningful professional/social connections through an interactive and responsive interface.
+This repository contains the frontend/client-side application for Linker — a social networking platform where users can discover profiles, connect with others, manage requests, and build meaningful professional/social connections through an interactive and responsive interface.
 
 ## 🚀 Live Demo
 
