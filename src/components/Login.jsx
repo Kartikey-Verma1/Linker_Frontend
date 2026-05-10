@@ -18,8 +18,8 @@ const Login = () => {
     // api call and user add logic
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [email, setEmail] = useState("kartik.v7391@gmail.com");
-    const [password, setPassword] = useState("Kartikeyverma@13022006");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
     const apiCallLogin = async (e)=>{
         e.preventDefault();
