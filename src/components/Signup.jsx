@@ -13,17 +13,19 @@ const Signup = () => {
     const [aboutError, setAboutError] = useState("");
     const [passwordMatchError, setPasswordMatchError] = useState("");
     
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [age, setAge] = useState(0);
-    const [gender, setGender] = useState("male");
-    const [newSkill, setNewSkill] = useState("");
-    const [skills, setSkills] = useState([]);
-    const [about, setAbout] = useState("Hey there! I am on Linker.");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
-    const [passwordType, setPasswordType] = useState("password");
+    const [form, setForm] = useState({
+        firstName: "",
+        lastName: "",
+        age: NaN,
+        gender: "male",
+        newSkill: "",
+        skills: [],
+        about: "Hey there! I am on Linker.",
+        email: "",
+        password: "",
+        confirmPassword: "",
+        passwordType: "password"
+    });
 
     const navigate = useNavigate();
 
@@ -31,52 +33,74 @@ const Signup = () => {
         setFirstNameError("");
         setLastNameError("");
         setAgeError("");
-        if(firstName === ""){
-            e.preventDefault();
+        let hasherror = false;
+        if(form.firstName === ""){
+            hasherror = true;
             setFirstNameError("This field is required!");
         } 
-        if(firstName.length < 4 || firstName.length > 15){
-            e.preventDefault();
+        if(form.firstName.length < 4 || form.firstName.length > 15){
+            hasherror = true;
             setFirstNameError("Length can be only 4 to 15 characters");
         }
-        if(lastName.length > 0 && (lastName.length < 4 || lastName.length > 15)){
-            e.preventDefault();
+        if(form.lastName.length > 0 && (form.lastName.length < 4 || form.lastName.length > 15)){
+            hasherror = true;
             setLastNameError("Length can be only 4 to 15 characters");
         }
-        if(age > 70 || age < 16){
-            if(age > 70) setAgeError("You are too aged to work!");
-            else if(age < 16) setAgeError("You are too young to work!");
-            e.preventDefault();
+        if(form.age > 70 || form.age < 16 || !form.age){
+            hasherror = true;
+            if(form.age > 70) setAgeError("You are too aged to work!");
+            else if(form.age < 16) setAgeError("You are too young to work!");
+            else setAgeError("Required");
         }
+        if(hasherror) e.preventDefault();
         return;
     }
+    const setfield = (field, value)=>{
+        setForm(prev=>({
+            ...prev,
+            [field]: value
+        }));
+    }
     const handleSkillsRemove = (index)=>{
-        const updatedList = skills.filter((element, i)=> i != index);
-        setSkills(updatedList);
+        const updatedList = form.skills.filter((element, i)=> i != index);
+        setfield("skills", updatedList);
     }
     const handleSkillsAdd = (e)=>{
         e.preventDefault();
-        if(newSkill.length <= 0) return;
-        if(newSkill.length > 20){
+        if(form.newSkill.length <= 0) return;
+        if(form.newSkill.length > 20){
             setErrorMessageSkill("Size of skill should be less than 20");
             return;
         }
-        setSkills([...skills, newSkill]);
+        setfield("skills", [...form.skills, form.newSkill]);
         setIsClickedSkills(false);
-        setNewSkill("");
+        setfield("newSkill", "");
         setErrorMessageSkill("");
     }
     const swapPasswordType = ()=>{
-        if(passwordType === "password") setPasswordType("text");
-        else setPasswordType("password");
+        if(form.passwordType === "password") setfield("passwordType", "text");
+        else setfield("passwordType", "password");
     }
-    const handleSubmit = async ()=>{
-        if(password !== confirmPassword){
+    const handleSubmit = async (e)=>{
+        e.preventDefault();
+        if(!form.email){
+            return;
+        }
+        if(form.password !== form.confirmPassword){
             setPasswordMatchError("Both passwords must match!");
             return;
         }
         try{
-            const responseData = await fetchAddProfile({firstName, lastName, email, password, age, gender, skills, about});
+            const responseData = await fetchAddProfile({
+                firstName: form.firstName, 
+                lastName: form.lastName, 
+                email: form.email, 
+                password: form.password, 
+                age: form.age, 
+                gender: form.gender, 
+                skills: form.skills, 
+                about: form.about
+            });
 
             alert(responseData.message);
             return navigate("/login");
@@ -103,8 +127,11 @@ const Signup = () => {
                                     type="text" 
                                     placeholder="First Name" 
                                     required 
-                                    value={firstName}
-                                    onChange={(e)=>{setFirstName(e.target.value)}}/>
+                                    minLength="4"
+                                    maxLength="16"
+                                    autoComplete="given-name"
+                                    value={form.firstName}
+                                    onChange={(e)=>{setfield("firstName", e.target.value)}}/>
                                 <p className="text-rose-400">{firstNameError}</p>
                             </fieldset>
 
@@ -113,8 +140,9 @@ const Signup = () => {
                                 <input className="input validator outline-0" 
                                     type="text" 
                                     placeholder="Last Name" 
-                                    value={lastName}
-                                    onChange={(e)=>{setLastName(e.target.value)}}/>
+                                    autoComplete="family-name"
+                                    value={form.lastName}
+                                    onChange={(e)=>{setfield("lastName", e.target.value)}}/>
                                 <p className="text-rose-400">{lastNameError}</p>
                             </fieldset>
 
@@ -122,10 +150,10 @@ const Signup = () => {
                                 <span className="label">Gender</span>
                                 <label className="select validator outline-0">
                                     <select>
-                                        <option onClick={()=>{setGender("male")}}>Male</option>
-                                        <option onClick={()=>{setGender("female")}}>Female</option>
-                                        <option onClick={()=>{setGender("others")}}>Others</option>
-                                        <option onClick={()=>{setGender(null)}}>Prefer not to say</option>
+                                        <option onClick={()=>{setfield("gender", "male")}}>Male</option>
+                                        <option onClick={()=>{setfield("gender", "female")}}>Female</option>
+                                        <option onClick={()=>{setfield("gender","others")}}>Others</option>
+                                        <option onClick={()=>{setfield("gender", null)}}>Prefer not to say</option>
                                     </select>
                                 </label>
                             </fieldset>
@@ -135,11 +163,12 @@ const Signup = () => {
                                 <input className="input validator outline-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" 
                                     type="number"
                                     placeholder="Age"
-                                    value={age}
+                                    value={form.age}
                                     required 
                                     min="16"
                                     max="70"
-                                    onChange={(e)=>{setAge(e.target.value)}}/>
+                                    autoComplete="bday-year"
+                                    onChange={(e)=>{setfield("age", e.target.value)}}/>
                                 <p className="text-rose-400">{ageError}</p>
                             </label>
 
@@ -154,13 +183,13 @@ const Signup = () => {
                                 <label className="label">About</label>
                                 <textarea className="validator input min-h-28 rounded-md outline-0 resize-none whitespace-pre-wrap p-2"
                                     placeholder="Hey there! I am on Linker." 
-                                    defaultValue={about || "Hey there! I am on Linker."}
+                                    defaultValue={form.about || "Hey there! I am on Linker."}
                                     wrap="soft"
                                     maxLength="200"
                                     onChange={(e)=>{
                                         if(e.target.value.length >= 200)setAboutError("Maximum number of characters allowed is 200");
                                         else setAboutError("");
-                                        setAbout(e.target.value);
+                                        setfield("about", e.target.value);
                                     }}>
                                 </textarea>
                                 <p className="text-rose-400">{aboutError}</p>
@@ -169,7 +198,7 @@ const Signup = () => {
 
                             <label className="label mt-3">Your Skills</label>
                             <div className="flex flex-wrap gap-2 border border-gray-500/60 rounded-md p-2 bg-base-100 mt-1 min-h-30 max-h-30 overflow-y-scroll no-scrollbar" >{
-                                skills.map((element, index) => (
+                                form.skills.map((element, index) => (
                                     <p key={index}  className="max-w-fit max-h-min py-1 px-3 rounded-md bg-base-300 relative">
                                         {element} 
                                         <button className="absolute cursor-pointer right-0 top-0 -translate-y-1/2 translate-x-1/2"
@@ -180,10 +209,10 @@ const Signup = () => {
                                         </button>
                                     </p>
                                 ))}
-                                {skills.length < 20 ?
+                                {form.skills.length < 20 ?
                                 <><label htmlFor="my_modal_6" className="btn max-h-min max-w-min py-1 px-3 rounded-md bg-base-300" onClick={()=>{setIsClickedSkills(true)}}><FaPlus/></label>
 
-                                <input type="checkbox" checked={isClickedSkills} className="modal-toggle" />
+                                <input type="checkbox" checked={isClickedSkills} readOnly className="modal-toggle" />
                                 <div className="modal " role="dialog"onKeyDown={(e)=>{
                                         if(e.key == "Enter") handleSkillsAdd(e);
                                     }}>
@@ -191,14 +220,14 @@ const Signup = () => {
                                         <h3 className="text-lg font-bold">Enter Your New Skill</h3>
                                         <input  className="input outline-0 w-full my-3" 
                                         type="text"
-                                        value={newSkill}
-                                        onChange={(e)=>{setNewSkill(e.target.value)}}/>
+                                        value={form.newSkill}
+                                        onChange={(e)=>{setfield("newSkill", e.target.value)}}/>
                                         <p className="text-rose-400">{errorMessageSkill}</p>
                                         <div className="modal-action">
                                             <label  className="btn" 
                                             htmlFor="my_modal_6"
                                             onClick={()=>{
-                                                setNewSkill("")
+                                                setfield("newSkill", "")
                                                 setErrorMessageSkill("")
                                                 setIsClickedSkills(false)}}><FaTimes />
                                             </label>
@@ -219,7 +248,11 @@ const Signup = () => {
                         </div>
                         
                     </form>
-                    <form className="fieldset bg-base-200 rounded-box w-2xs p-4 max-h-full carousel-item flex flex-col justify-between" id="slide3">
+                    <form className="fieldset bg-base-200 rounded-box w-2xs p-4 max-h-full carousel-item flex flex-col justify-between" 
+                        method="post"
+                        autoComplete="on"
+                        id="slide3" 
+                        onSubmit={handleSubmit}>
                         <div>
                             <p className="text-lg font-bold">Authentication:</p>
                             <fieldset className="fieldset" >
@@ -228,26 +261,32 @@ const Signup = () => {
                                     type="email" 
                                     placeholder="Email" 
                                     required 
-                                    value={email}
-                                    onChange={(e)=>{setEmail(e.target.value)}}/>
-                                <p className="validator-hint hidden m-0">Required</p>
+                                    value={form.email}
+                                    pattern="^(?=.*@.*\.).+$"
+                                    autoComplete="username"
+                                    onChange={(e)=>{setfield("email", e.target.value)}}/>
+                                <p className="validator-hint hidden m-0">Enter valid email!</p>
                             </fieldset>
 
                             <fieldset className="fieldset">
                                 <span className="label">Password</span>
                                 <div className="input validator relative outline-0">
                                     <input 
-                                        type={passwordType} 
+                                        type={form.passwordType} 
                                         placeholder="Password" 
                                         required 
-                                        value={password}
-                                        onChange={(e)=>{setPassword(e.target.value)}}/>
+                                        value={form.password}
+                                        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).+$"
+                                        minLength="8"
+                                        name="password"
+                                        autoComplete="new-password"
+                                        onChange={(e)=>{setfield("password", e.target.value)}}/>
             
                                     <button 
                                         type="button"
                                         onClick={swapPasswordType}
                                         className="absolute right-3 top-1/2 -translate-y-1/2 text-lg text-gray-400">
-                                            {passwordType ==="password" ? <FaEye /> : <FaEyeSlash />}
+                                            {form.passwordType ==="password" ? <FaEye /> : <FaEyeSlash />}
                                     </button>
                                 </div>
                                 <span className="validator-hint hidden my-0">Required</span>
@@ -257,9 +296,11 @@ const Signup = () => {
                                 <span className="label">Confirm Password</span>
                                 <input  className="input validator outline-0" type="password" 
                                     placeholder="Confirm Password"
-                                    value={confirmPassword} 
+                                    value={form.confirmPassword} 
                                     required 
-                                    onChange={(e)=>{setConfirmPassword(e.target.value)}}/>
+                                    name="confirm-password"
+                                    autoComplete="new-password"
+                                    onChange={(e)=>{setfield("confirmPassword", e.target.value)}}/>
                                 <span className="validator-hint hidden m-0">Required</span>
                             </fieldset>
                             <p className="text-rose-400">{passwordMatchError}</p>
@@ -267,7 +308,7 @@ const Signup = () => {
                         </div>
                         <div className="flex gap-6">
                             <a className="btn btn-neutral mt-4 flex-1/2" href="#slide2">Previous</a>
-                            <button className="btn btn-info mt-4 flex-1/2" type="button" onClick={handleSubmit}>Submit</button>
+                            <button className="btn btn-info mt-4 flex-1/2" type="submit">Submit</button>
                         </div>
                     </form>
                 </div>
