@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { addRequests, removeRequest } from "../utils/requestsSlice";
-import { fetchReview, fetchConnectionData, fetchRequestData, fetchInterestData, fetchWithdraw } from "../utils/fetchData";
+import { addRequests, removeRequest } from "../../utils/requestsSlice";
+import { fetchReview, fetchConnectionData, fetchRequestData, fetchInterestData, fetchWithdraw } from "../../utils/fetchData";
 import { useNavigate } from "react-router-dom";
-import { addConnections, pushConnection } from "../utils/connectionsSlice";
-import { addInterests, removeInterest } from "../utils/interestsSlice";
+import { addConnections, pushConnection } from "../../utils/connectionsSlice";
+import { addInterests, removeInterest } from "../../utils/interestsSlice";
 const Request = () => {
     const [page, setPage] = useState(1);
 

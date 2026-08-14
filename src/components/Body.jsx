@@ -1,8 +1,8 @@
 import { Outlet } from "react-router-dom"
 import NavBar from "./NavBar"
 import Footer from "./Footer"
-import Request from "./Request"
-import Connections from "./Connections"
+import Requests from "../pages/Requests/Requests"
+import Connections from "../pages/Connections/Connections"
 import { useEffect, useState } from "react"
 
 const Body = () => {

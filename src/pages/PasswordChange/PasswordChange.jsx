@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addUser } from "../utils/userSlice";
-import { fetchChangePassword, fetchUserData } from "../utils/fetchData.js";
+import { addUser } from "../../utils/userSlice.js";
+import { fetchChangePassword, fetchUserData } from "../../utils/fetchData.js";
 
 const PasswordChange = () => {
     const [oldPass, setOldPass] = useState("");

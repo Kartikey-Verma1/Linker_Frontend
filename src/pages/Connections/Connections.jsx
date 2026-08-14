@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchConnectionData } from "../utils/fetchData";
+import { fetchConnectionData } from "../../utils/fetchData";
 import { useNavigate } from "react-router-dom";
-import { addConnections } from "../utils/connectionsSlice";
+import { addConnections } from "../../utils/connectionsSlice";
 
 const Connections = () => {
     const connections = useSelector((store)=>store.connections);

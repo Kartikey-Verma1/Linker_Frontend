@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaCheck, FaEye, FaEyeSlash, FaPlus, FaTimes} from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { fetchAddProfile } from "../utils/fetchData";
+import { fetchAddProfile } from "../../utils/fetchData";
 
 const Signup = () => {
     const [isClickedSkills, setIsClickedSkills] = useState(false);
@@ -249,9 +249,9 @@ const Signup = () => {
                         
                     </form>
                     <form className="fieldset bg-base-200 rounded-box w-2xs p-4 max-h-full carousel-item flex flex-col justify-between" 
+                        id="slide3" 
                         method="post"
                         autoComplete="on"
-                        id="slide3" 
                         onSubmit={handleSubmit}>
                         <div>
                             <p className="text-lg font-bold">Authentication:</p>

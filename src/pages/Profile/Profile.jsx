@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from "react-redux"
 import { FaEdit, FaMars, FaVenus, FaGenderless, FaCheck, FaTimes, FaPlus } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import { addUser, removeUser } from "../utils/userSlice";
+import { addUser, removeUser } from "../../utils/userSlice";
 import { Link, useNavigate } from "react-router-dom";
-import ShimmerProfile from "./ShimmerProfile";
+import ShimmerProfile from "../../components/ShimmerProfile";
 import { FaCakeCandles } from "react-icons/fa6";
-import { fetchDeleteProfile, fetchEdit, fetchUserData } from "../utils/fetchData";
-import SkillsDraggableEditable from "./SkillsDraggableEditable";
+import { fetchDeleteProfile, fetchEdit, fetchUserData } from "../../utils/fetchData";
+import SkillsDraggableEditable from "../../components/SkillsDraggableEditable";
 import { DragDropProvider } from "@dnd-kit/react";
 
 const Profile = () => {

@@ -1,14 +1,14 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import Body from "./components/Body"
-import Login from "./components/Login"
+import Login from "./pages/Login/Login"
 import { Provider } from "react-redux"
 import appStore from "./utils/appStore"
-import Feed from "./components/Feed"
-import Profile from "./components/Profile"
+import Feed from "./pages/Feed/Feed"
+import Profile from "./pages/Profile/Profile"
 import Error from "./components/Error"
-import Signup from "./components/Signup"
-import PasswordChange from "./components/PasswordChange"
-import RequestedProfileView from "./components/RequestedProfileView"
+import Signup from "./pages/Signup/Signup"
+import PasswordChange from "./pages/PasswordChange/PasswordChange"
+import RequestedProfileView from "./pages/Profile/RequestedProfileView"
 
 function App() {
   return (
