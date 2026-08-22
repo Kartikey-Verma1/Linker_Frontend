@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { addUser } from "../../utils/userSlice";
+import { addUser } from "../../redux/userSlice";
 import { Link, useNavigate } from "react-router-dom";
-import { addRequests } from "../../utils/requestsSlice";
+import { addRequests } from "../../redux/requestsSlice";
 import { fetchLogin, fetchRequestData, fetchUserData } from "../../utils/fetchData";
 
 const Login = () => {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addUser } from "../../utils/userSlice.js";
+import { addUser } from "../../redux/userSlice.js";
 import { fetchChangePassword, fetchUserData } from "../../utils/fetchData.js";
 
 const PasswordChange = () => {

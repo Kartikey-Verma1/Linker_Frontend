@@ -27,7 +27,7 @@ const Body = () => {
                 </div>
                 <Footer />
             </div>
-            {drawerType === "requests" && <Request/>}
+            {drawerType === "requests" && <Requests/>}
             {drawerType === "connections" && <Connections/>}
         </div>
     )

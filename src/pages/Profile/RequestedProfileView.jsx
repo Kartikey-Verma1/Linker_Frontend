@@ -4,12 +4,18 @@ import { FaGenderless, FaMars, FaVenus } from "react-icons/fa";
 import { FaCakeCandles } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchFeed, fetchInterestData, fetchRequest, fetchRequestedUser, fetchReview, fetchUserData, fetchWithdraw } from "../../utils/fetchData";
-import { addUser } from "../../utils/userSlice";
+import { addUser } from "../../redux/userSlice";
 import ShimmerProfile from "../../components/ShimmerProfile";
-import { addFeed, removeFeedUser } from "../../utils/feedSlice";
-import { addInterests, pushInterest, removeInterest } from "../../utils/interestsSlice";
-import { removeRequest } from "../../utils/requestsSlice";
-import { pushConnection, removeConnection } from "../../utils/connectionsSlice";
+import { addFeed, removeFeedUser } from "../../redux/feedSlice";
+import { addInterests, pushInterest, removeInterest } from "../../redux/interestsSlice";
+import { removeRequest } from "../../redux/requestsSlice";
+import { pushConnection, removeConnection } from "../../redux/connectionsSlice";
+import Name from "./components/Name";
+import Photo from "./components/Photo";
+import About from "./components/About";
+import Gender from "./components/Gender";
+import Age from "./components/Age";
+import Skills from "./components/Skills";
 const RequestedProfileView = () => {
     const user = useSelector((store)=>store.user);
     const connections = useSelector((store)=>store.connections);
@@ -196,65 +202,23 @@ const RequestedProfileView = () => {
             {requestedData?.firstName ? 
             <div className="card lg:card-side bg-base-200 shadow-[0_0_12px_rgba(147,197,253,0.3)] max-w-3xl mx-auto flex flex-col">
                 <div className="card-body flex flex-col gap-3">
-                    <div className="flex gap-3 items-center mb-3">
-                        <label className="avatar"
-                            htmlFor="my_modal_photo">
-                            <figure className="max-w-30 min-w-11 rounded-full cursor-pointer">
-                                <img className="max-w-96"
-                                src={requestedData.photourl}
-                                alt="image" />
-                            </figure>
-                        </label>
-                        <input type="checkbox" id="my_modal_photo" className="modal-toggle" />
-                        <div className="modal" role="dialog">
-                            <div className="modal-box p-0 max-w-fit max-h-fit">
-                                <div className=" max-w-sm">
-                                    <img className="aspect-16/18 object-cover"
-                                        src={user.photourl}
-                                        alt="profile photo" />
-                                </div>
-                                <label htmlFor="my_modal_photo" className="p-1 px-2 rounded-full cursor-pointer bg-base-100/20 hover:bg-base-200 absolute right-1 top-1">✕</label>
-                            </div>
-                        </div>
-                        <h2 className="card-title text-2xl">{`${requestedData.firstName} ${requestedData.lastName}`}</h2>
+                    <div className="flex gap-7 items-center mb-3">
+                        <Photo edit={false} url={requestedData.photourl} />
+                        <Name 
+                            edit = {false} 
+                            data = {{firstName: requestedData.firstName, lastName: requestedData.lastName}}
+                            editCall={null}
+                        />
                     </div>
                 
                 
-                    <div className="border border-gray-500 rounded-md p-3 bg-base-100">
-                        <p className="text-lg font-bold">About</p>
-                        <p className="pt-2">{requestedData.about}</p>
-                    </div>
+                    <About edit={false} data={requestedData.about} editCall={null}/>
 
-                    <div className="border border-gray-500 rounded-md p-3 bg-base-100">
-                        <p className="text-lg font-bold">Skills</p>
-                        <div className="flex flex-wrap">
-                            { 
-                                requestedData.skills.length > 0 ?
-                                (requestedData.skills.map((element, index)=>(
-                                    <p key={index}  className="max-w-min mr-3 mt-2 p-1 px-3 rounded-md bg-base-300 relative">{element}</p>
-                                ))) :
-                                <p className="py-2">N/A</p>
-                            }
-                        </div>
-                    </div>
+                    <Skills edit={false} data={requestedData.skills} editCall={null} />
                     
                     <div className="flex gap-2">
-                        <div className="border border-gray-500 rounded-md p-3 bg-base-100 flex-1/2">
-                            <p className="text-lg font-bold">Gender</p>
-                            <p className="pt-2">{
-                                (requestedData.gender)?
-                                    (requestedData.gender === "male"?
-                                        <span className="flex items-center gap-2"><FaMars /> Male</span>:
-                                        (requestedData.gender === "female" ?
-                                            <span className="flex items-center gap-2"><FaVenus /> Female</span>:
-                                            <span className="flex items-center gap-2"><FaGenderless />Others</span>)):
-                                    <span>N/A</span>
-                            }</p>
-                        </div>
-                        <div className="border border-gray-500 rounded-md p-3 bg-base-100 flex-1/2">
-                            <p className="text-lg font-bold">Age</p>
-                            <p className="pt-2 flex items-center gap-2"><FaCakeCandles /> {requestedData.age}</p>
-                        </div>
+                        <Gender edit={false} data={requestedData.gender} editCall={null} />
+                        <Age edit={false} data={requestedData.age} editCall={null} />
                     </div>
 
                     <div className="mt-2 text-right gap-3">

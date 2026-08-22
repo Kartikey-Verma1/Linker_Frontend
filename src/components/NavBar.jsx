@@ -1,11 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
 import ThemeController from "./ThemeController";
 import { useDispatch, useSelector } from "react-redux";
-import { removeUser } from "../utils/userSlice";
-import { removeAllRequests } from "../utils/requestsSlice";
-import { clearConnection } from "../utils/connectionsSlice";
+import { removeUser } from "../redux/userSlice";
+import { removeAllRequests } from "../redux/requestsSlice";
+import { clearConnection } from "../redux/connectionsSlice";
 import { fetchLogout } from "../utils/fetchData";
-import { clearFeed } from "../utils/feedSlice";
+import { clearFeed } from "../redux/feedSlice";
 
 const NavBar = ({setDrawerType}) => {
     const dispatch = useDispatch();

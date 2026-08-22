@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addUser } from "../../utils/userSlice.js";
+import { addUser } from "../../redux/userSlice.js";
 import { useEffect, useState } from "react";
 import { fetchFeed, fetchRequest, fetchUserData } from "../../utils/fetchData.js";
-import { addFeed, removeFrontFeed } from "../../utils/feedSlice.js";
+import { addFeed, removeFrontFeed } from "../../redux/feedSlice.js";
 import { FaCheck, FaTimes } from "react-icons/fa";
 
 const Feed = () => {
