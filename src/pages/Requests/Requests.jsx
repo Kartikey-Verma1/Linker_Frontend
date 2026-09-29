@@ -7,6 +7,7 @@ import { addConnections, pushConnection } from "../../redux/connectionsSlice";
 import { addInterests, removeInterest } from "../../redux/interestsSlice";
 const Requests = () => {
     const [page, setPage] = useState(1);
+    const [isClicked, setIsClicked] = useState(false);
 
     const item1ref = useRef(null);
     const item2ref = useRef(null);
@@ -99,10 +100,26 @@ const Requests = () => {
             else return navigate("/*", {state: {status, statusText, data}});
         }
     }
-    const handlescroll = (e)=>{
+    const handlescroll = ()=>{
+        if(isClicked) return;
         const ref = carouselref.current;
         const p = Math.round(ref.scrollLeft/ref.offsetWidth) + 1;
         setPage(p);
+    }
+    const timeout = ()=>{
+        setIsClicked(false);
+    }
+    const gotopage = (i)=>{
+        i == 1 ? 
+        item1ref.current?.scrollIntoView({behaviour: "smooth"}):
+        item2ref.current?.scrollIntoView({behaviour: "smooth"});
+        setPage(i);
+
+        clearTimeout(timeout, 500);
+
+        setIsClicked(true);
+
+        setTimeout(timeout, 500);
     }
     return (
         <div className="drawer-side  backdrop-blur-xs">
@@ -110,7 +127,7 @@ const Requests = () => {
                 htmlFor="my_drawer" 
                 aria-label="close sidebar" >
             </label>
-            <div className="menu bg-base-200 min-h-full w-90 p-4" onScroll={()=>{console.log("hehehe")}}>
+            <div className="menu bg-base-200 min-h-full w-90 p-4" >
                 <div className="text-right">
                     <label className="drawer-overlay cursor-pointer max-w-min px-2"
                         htmlFor="my_drawer" 
@@ -119,14 +136,10 @@ const Requests = () => {
                 </div>
                 <h2 className="text-center text-lg font-bold pb-2 border-b border-gray-500/70">Requests</h2>
                 <div className="flex gap-1 bg-base-300 rounded-xl mt-1 p-1">
-                    <button onClick={()=>{
-                        item1ref.current?.scrollIntoView({behaviour: "smooth"});
-                        setPage(1)}
-                    } className={`py-2 flex-1/2 text-center rounded-xl hover:bg-base-100 ${page === 1 ? "bg-base-100": ""}`}>Received</button>
+                    <button onClick={()=>{gotopage(1)}
+                    } className={`py-2 flex-1/2 text-center rounded-xl hover:bg-base-100 ${page === 1 ? "bg-base-100" : ""}`}>Received</button>
                     
-                    <button onClick={(e)=>{
-                        item2ref.current?.scrollIntoView({behaviour: "smooth"});
-                        setPage(2)}
+                    <button onClick={()=>{gotopage(2)}
                     } className={`py-2 flex-1/2 text-center rounded-xl hover:bg-base-100 ${page === 2 ? "bg-base-100" : ""}`}>Sent</button>
                 </div>
                 <div ref={carouselref} onScroll={handlescroll} className="carousel w-full mt-1">
